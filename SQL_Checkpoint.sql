@@ -93,3 +93,67 @@ from Project;
 select * 
 from Employee_Project;
 
+
+-- 1. Write a query to retrieve the names of employees who are assigned to more than one project, including the total number of projects for each employee.
+select Em.name, Emp.employee_Num_E, count(Emp.Project_Num_P) No_of_Projects
+from Employee Em
+join Employee_Project Emp 
+ON Em.Num_E = Emp.Employee_Num_E
+group by Em.name, Emp.employee_Num_E
+having  count(Emp.Project_Num_P) > 1
+
+
+-- 2. Write a query to retrieve the list of projects managed by each department, including the department label and manager’s name.
+select Label, pr.Title, Manager_name
+from project pr
+join department D
+ON D.Num_S = Pr.Department_Num_S
+order by label;
+
+
+-- 3. Write a query to retrieve the names of employees working on the project "Website Redesign," including their roles in the project.
+select Em.name, Pr.title, Emp.Role
+from Employee Em
+join Employee_Project Emp ON Em.Num_E = Emp.Employee_Num_E
+join Project pr ON pr.Num_P = Emp.Project_Num_P
+where Pr.title like '%Web_%'
+;
+
+-- 4. Write a query to retrieve the department with the highest number of employees, including the department label, manager name, and the total number of employees.
+select top 1 Label, manager_name, count(em.Num_E) Total_employees
+from department D
+join employee Em
+ON D.Num_S = Em.Department_Num_S
+group by Label, manager_name
+order by Total_employees desc ; 
+
+
+-- 5. Write a query to retrieve the names and positions of employees earning a salary greater than 60,000, including their department names.
+select name, position, label, salary 
+from Employee Em
+join department D
+ON Em.Department_Num_S = D.Num_S
+where salary > 60000 ;
+
+
+-- 6. Write a query to retrieve the number of employees assigned to each project, including the project title.
+select title, count(emP.Employee_Num_E) Total_employees
+from Project pr
+join Employee_Project EmP 
+ON Pr.Num_P = Emp.Project_Num_P
+group by title ;
+
+
+-- 7. Write a query to retrieve a summary of roles employees have across different projects, including the employee name, project title, and role.
+select name, title, role
+from Employee Em
+join Employee_Project Emp ON em.Num_E = Emp.Employee_Num_E
+join Project P ON P.Num_P = Emp.Project_Num_P ;
+
+
+-- 8. Write a query to retrieve the total salary expenditure for each department, including the department label and manager name.
+select label,manager_name, sum(salary) Tot_Salary
+from department D
+join Employee Em 
+ON D.Num_S = Em.Department_Num_S
+group by label, Manager_Name ; 
